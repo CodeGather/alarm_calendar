@@ -1,0 +1,22 @@
+PODS:
+  - alarm_calendar (0.0.1):
+    - Flutter
+  - Flutter (1.0.0)
+
+DEPENDENCIES:
+  - alarm_calendar (from `.symlinks/plugins/alarm_calendar/ios`)
+  - Flutter (from `Flutter`)
+
+EXTERNAL SOURCES:
+  alarm_calendar:
+    :path: ".symlinks/plugins/alarm_calendar/ios"
+  Flutter:
+    :path: Flutter
+
+SPEC CHECKSUMS:
+  alarm_calendar: c0c6d8f5dde60480325edba78df8cb6720238338
+  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+
+PODFILE CHECKSUM: 3dbe063e9c90a5d7c9e4e76e70a821b9e2c1d271
+
+COCOAPODS: 1.8.4
