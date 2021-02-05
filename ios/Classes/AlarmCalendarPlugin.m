@@ -21,7 +21,8 @@ bool bool_false = false;
   NSDictionary *dic = call.arguments;
   if ([@"createEvent" isEqualToString:call.method]) {
     [self createCalendars: call result: result];
-    
+  } else if ([@"selectEvent" isEqualToString:call.method]) {
+    [self selectCalendars: call result: result];
   } else if ([@"deleteEvent" isEqualToString:call.method]) {
     
     NSString *arrayStr = [[NSUserDefaults standardUserDefaults]objectForKey:@"my_eventIdentifier"];
@@ -107,7 +108,7 @@ bool bool_false = false;
     // [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     // NSDate *date = [formatter dateFromString:@"2020-05-05 12:23:33"];
     
-    NSDate *startDate = [NSDate dateWithTimeIntervalSince1970: [ dic[@"beginTime"] doubleValue] / 1000.0 ];
+    NSDate *startDate = [NSDate dateWithTimeIntervalSince1970: [ dic[@"startTime"] doubleValue] / 1000.0 ];
     // 提前一个小时开始
     // NSDate *startDate = [NSDate dateWithTimeInterval:-3600 sinceDate:date];
     // 提前一分钟结束
@@ -130,29 +131,79 @@ bool bool_false = false;
     BOOL creatStatus = [[EventManger shareInstance] createEvent:event];
     
     if ( creatStatus ) {
-        NSLog(@"添加时间成功 ID：%@", event.eventIdentifier);
-        //添加成功后需要保存日历关键字
+        // NSLog(@"添加时间成功 ID：%@", event.eventIdentifier);
+        // 添加成功后需要保存日历关键字
 
-        NSString *array = [[NSUserDefaults standardUserDefaults]objectForKey:@"my_eventIdentifier"];
-        NSLog(@"日历提醒ID：%@",array);
+        NSString *events = [[NSUserDefaults standardUserDefaults]objectForKey:@"my_eventIdentifier"];
+        // NSLog(@"日历提醒ID：%@",array);
         
         NSString * data = event.eventIdentifier;
-        if( ![array isEqual:(@1)]){
-          data = [NSString stringWithFormat:@"%@,%@", array, event.eventIdentifier ];
+        if( events != nil && ![events isEqual:(@1)] ){
+          data = [NSString stringWithFormat:@"%@,%@", events, event.eventIdentifier ];
         }
         // 保存在沙盒，避免重复添加等其他判断
         [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"my_eventIdentifier"];
         [[NSUserDefaults standardUserDefaults] synchronize];
+      
+        // 返回创建的ID
+        result([NSString stringWithFormat:@"%@", event.eventIdentifier]);
     }
     
-    // 返回创建的ID
-    result([NSString stringWithFormat:@"%@", event.eventIdentifier]);
        
   });
   
   Calendars *p1 = [[Calendars alloc] initWithAge:10 andName:@"Rose"];
   NSLog(@"log-------%@", p1.title);
 }
+
+- (void)selectCalendars:(FlutterMethodCall*)call result:(FlutterResult)result
+{
+  NSDictionary *dic = call.arguments;
+  if( dic[@"eventId"] != Nil && ![dic[@"eventId"]  isEqual: @"1"] && ![dic[@"eventId"]  isEqual: @""] ){
+    dispatch_async(dispatch_get_main_queue(), ^{
+      
+      EKEventStore *store = [[EKEventStore alloc] init];
+      EKEvent *events = [store eventWithIdentifier: dic[@"eventId"]];
+      
+      NSDictionary *resultData = @{
+          @"code": @200,
+          @"msg" : @"获取成功",
+          @"data": @{
+              @"id": events.eventIdentifier ?: dic[@"eventId"],
+              @"title": events.title ?: @"21212",
+              @"startTime" : [self dateWithFormat_yyyy_MM_dd_HH_mm_ss: events.startDate],
+              @"endTime" : [self dateWithFormat_yyyy_MM_dd_HH_mm_ss: events.endDate],
+              @"allDay" : @(events.allDay),
+              @"notes" : events.notes ?: @"1212",
+              @"location" : events.location ?: @"2121",
+              @"status" : @(events.status),
+              @"url" : events.URL ?: @"1212",
+          }
+      };
+      
+      NSLog(@"log-------%@",resultData);
+      result(resultData);
+    });
+  } else {
+    NSDictionary *resultData = @{
+        @"code": @500,
+        @"msg" : @"未找到该ID的相关消息",
+        @"data" : @"",
+    };
+
+    result(resultData);
+  }
+}
+
+-(NSString*)dateWithFormat_yyyy_MM_dd_HH_mm_ss:(NSDate *)string
+{
+    NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSString *date =[dateFormat stringFromDate:string];
+    return date;
+}
+
+
 
 // 删除之前插入的事件
 - (void)deleteInsertedEvent: (NSString*)title startTime:(NSString*)startTime endTime:(NSString*)endTime result:(FlutterResult)result

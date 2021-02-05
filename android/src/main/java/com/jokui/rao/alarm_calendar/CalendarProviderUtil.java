@@ -13,17 +13,19 @@ import android.icu.util.TimeZone;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.CalendarContract;
+import android.provider.Contacts;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-//import static androidx.core.content.PermissionChecker.checkSelfPermission;
 
+@RequiresApi(api = Build.VERSION_CODES.KITKAT)
 public class CalendarProviderUtil {
 
 
@@ -131,6 +133,155 @@ public class CalendarProviderUtil {
 
     }
 
+    public static final String[] FIELDS = {
+            CalendarContract.Calendars.NAME,
+            CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
+            CalendarContract.Calendars.CALENDAR_COLOR,
+            CalendarContract.Calendars.VISIBLE
+    };
+
+    /**
+     * 通过id 获取日历
+     */
+    public static CalendarEvent selectEvent(Context context, String eventId){
+        contentResolver = context.getContentResolver();
+        // 日历表id
+        int calendarId = isHaveCalender(context);
+        if (calendarId == -1) {
+            calendarId = isHaveCalender(context);
+        }
+
+        long eventID = Long.parseLong(eventId);
+
+        CalendarEvent data = queryAccountEvent(context, 1, eventID);
+        return data;
+    }
+
+    // ------------------------------- 查询日历事件 -----------------------------------
+
+    /**
+     * 查询指定日历账户下的所有事件
+     *
+     * @return If failed return null else return List<CalendarEvent>
+     */
+    public static CalendarEvent queryAccountEvent(Context context, long calID, long eventId) {
+        final String[] EVENT_PROJECTION = new String[]{
+                CalendarContract.Events.CALENDAR_ID,             // 在表中的列索引0
+                CalendarContract.Events.TITLE,                   // 在表中的列索引1
+                CalendarContract.Events.DESCRIPTION,             // 在表中的列索引2
+                CalendarContract.Events.EVENT_LOCATION,          // 在表中的列索引3
+                CalendarContract.Events.DISPLAY_COLOR,           // 在表中的列索引4
+                CalendarContract.Events.STATUS,                  // 在表中的列索引5
+                CalendarContract.Events.DTSTART,                 // 在表中的列索引6
+                CalendarContract.Events.DTEND,                   // 在表中的列索引7
+                CalendarContract.Events.DURATION,                // 在表中的列索引8
+                CalendarContract.Events.EVENT_TIMEZONE,          // 在表中的列索引9
+                CalendarContract.Events.EVENT_END_TIMEZONE,      // 在表中的列索引10
+                CalendarContract.Events.ALL_DAY,                 // 在表中的列索引11
+                CalendarContract.Events.ACCESS_LEVEL,            // 在表中的列索引12
+                CalendarContract.Events.AVAILABILITY,            // 在表中的列索引13
+                CalendarContract.Events.HAS_ALARM,               // 在表中的列索引14
+                CalendarContract.Events.RRULE,                   // 在表中的列索引15
+                CalendarContract.Events.RDATE,                   // 在表中的列索引16
+                CalendarContract.Events.HAS_ATTENDEE_DATA,       // 在表中的列索引17
+                CalendarContract.Events.LAST_DATE,               // 在表中的列索引18
+                CalendarContract.Events.ORGANIZER,               // 在表中的列索引19
+                CalendarContract.Events.IS_ORGANIZER,            // 在表中的列索引20
+                CalendarContract.Events._ID                      // 在表中的列索引21
+        };
+
+        // 事件匹配
+        Uri uri = CalendarContract.Events.CONTENT_URI;
+        Uri uri2 = CalendarContract.Reminders.CONTENT_URI;
+
+        String selection = "(" + CalendarContract.Events.CALENDAR_ID + " = ?)";
+        String[] selectionArgs = new String[]{String.valueOf(calID)};
+
+        Cursor cursor;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (PackageManager.PERMISSION_GRANTED == context.checkSelfPermission(
+                    "android.permission.READ_CALENDAR")) {
+                cursor = context.getContentResolver().query(uri, EVENT_PROJECTION, selection,
+                        selectionArgs, null);
+            } else {
+                return null;
+            }
+        } else {
+            cursor = context.getContentResolver().query(uri, EVENT_PROJECTION, selection,
+                    selectionArgs, null);
+        }
+
+        if (null == cursor) {
+            return null;
+        }
+
+        // 查询结果
+//        List<CalendarEvent> result = new ArrayList<>();
+        CalendarEvent calendarEvent = new CalendarEvent();
+
+        // 开始查询数据
+        if (cursor.moveToFirst()) {
+            do {
+                if (cursor.getLong(cursor.getColumnIndex(CalendarContract.Events._ID)) == eventId) {
+//                    result.add(calendarEvent);
+                    calendarEvent.setId(cursor.getLong(cursor.getColumnIndex(CalendarContract.Events._ID)));
+                    calendarEvent.setCalID(cursor.getLong(cursor.getColumnIndex(CalendarContract.Events.CALENDAR_ID)));
+                    calendarEvent.setTitle(cursor.getString(cursor.getColumnIndex(CalendarContract.Events.TITLE)));
+                    calendarEvent.setDescription(cursor.getString(cursor.getColumnIndex(CalendarContract.Events.DESCRIPTION)));
+                    calendarEvent.setEventLocation(cursor.getString(cursor.getColumnIndex(CalendarContract.Events.EVENT_LOCATION)));
+                    calendarEvent.setDisplayColor(cursor.getInt(cursor.getColumnIndex(CalendarContract.Events.DISPLAY_COLOR)));
+                    calendarEvent.setStatus(cursor.getInt(cursor.getColumnIndex(CalendarContract.Events.STATUS)));
+                    calendarEvent.setStart(cursor.getLong(cursor.getColumnIndex(CalendarContract.Events.DTSTART)));
+                    calendarEvent.setEnd(cursor.getLong(cursor.getColumnIndex(CalendarContract.Events.DTEND)));
+                    calendarEvent.setDuration(cursor.getString(cursor.getColumnIndex(CalendarContract.Events.DURATION)));
+                    calendarEvent.setEventTimeZone(cursor.getString(cursor.getColumnIndex(CalendarContract.Events.EVENT_TIMEZONE)));
+                    calendarEvent.setEventEndTimeZone(cursor.getString(cursor.getColumnIndex(CalendarContract.Events.EVENT_END_TIMEZONE)));
+                    calendarEvent.setAllDay(cursor.getInt(cursor.getColumnIndex(CalendarContract.Events.ALL_DAY)));
+                    calendarEvent.setAccessLevel(cursor.getInt(cursor.getColumnIndex(CalendarContract.Events.ACCESS_LEVEL)));
+                    calendarEvent.setAvailability(cursor.getInt(cursor.getColumnIndex(CalendarContract.Events.AVAILABILITY)));
+                    calendarEvent.setHasAlarm(cursor.getInt(cursor.getColumnIndex(CalendarContract.Events.HAS_ALARM)));
+                    calendarEvent.setRRule(cursor.getString(cursor.getColumnIndex(CalendarContract.Events.RRULE)));
+                    calendarEvent.setRDate(cursor.getString(cursor.getColumnIndex(CalendarContract.Events.RDATE)));
+                    calendarEvent.setHasAttendeeData(cursor.getInt(cursor.getColumnIndex(CalendarContract.Events.HAS_ATTENDEE_DATA)));
+                    calendarEvent.setLastDate(cursor.getInt(cursor.getColumnIndex(CalendarContract.Events.LAST_DATE)));
+                    calendarEvent.setOrganizer(cursor.getString(cursor.getColumnIndex(CalendarContract.Events.ORGANIZER)));
+                    calendarEvent.setIsOrganizer(cursor.getString(cursor.getColumnIndex(CalendarContract.Events.IS_ORGANIZER)));
+
+
+                    // ----------------------- 开始查询事件提醒 ------------------------------
+                    String[] REMINDER_PROJECTION = new String[]{
+                            CalendarContract.Reminders._ID,                     // 在表中的列索引0
+                            CalendarContract.Reminders.EVENT_ID,                // 在表中的列索引1
+                            CalendarContract.Reminders.MINUTES,                 // 在表中的列索引2
+                            CalendarContract.Reminders.METHOD,                  // 在表中的列索引3
+                    };
+                    String selection2 = "(" + CalendarContract.Reminders.EVENT_ID + " = ?)";
+                    String[] selectionArgs2 = new String[]{String.valueOf(calendarEvent.getId())};
+
+                    try (Cursor reminderCursor = contentResolver.query(uri2, REMINDER_PROJECTION, selection2, selectionArgs2, null)) {
+                        if (null != reminderCursor) {
+                            if (reminderCursor.moveToFirst()) {
+                                List<CalendarEvent.EventReminders> reminders = new ArrayList<>();
+                                do {
+                                    CalendarEvent.EventReminders reminders1 = new CalendarEvent.EventReminders();
+                                    reminders.add(reminders1);
+                                    reminders1.setReminderId(reminderCursor.getLong(reminderCursor.getColumnIndex(CalendarContract.Reminders._ID)));
+                                    reminders1.setReminderEventID(reminderCursor.getLong(reminderCursor.getColumnIndex(CalendarContract.Reminders.EVENT_ID)));
+                                    reminders1.setReminderMinute(reminderCursor.getInt(reminderCursor.getColumnIndex(CalendarContract.Reminders.MINUTES)));
+                                    reminders1.setReminderMethod(reminderCursor.getInt(reminderCursor.getColumnIndex(CalendarContract.Reminders.METHOD)));
+                                } while (reminderCursor.moveToNext());
+                                calendarEvent.setReminders(reminders);
+                            }
+                        }
+                    }
+                }
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+        return calendarEvent;
+    }
+
     /**
      *  添加日历事件
      *
@@ -148,10 +299,10 @@ public class CalendarProviderUtil {
             calendarId = isHaveCalender(context);
         }
 
-        Log.i("TAG","STStart "+calendars.beginTime);
+        Log.i("TAG","STStart "+calendars.startTime);
         // 准备event
         ContentValues valueEvent = new ContentValues();
-        valueEvent.put(CalendarContract.Events.DTSTART, calendars.beginTime);
+        valueEvent.put(CalendarContract.Events.DTSTART, calendars.startTime);
         valueEvent.put(CalendarContract.Events.DTEND, calendars.endTime);
         valueEvent.put(CalendarContract.Events.TITLE, calendars.title);
         valueEvent.put(CalendarContract.Events.DESCRIPTION, calendars.note);
@@ -198,8 +349,7 @@ public class CalendarProviderUtil {
             return false;
         }else {
             ContentValues values = new ContentValues();
-            Uri deleteUri = null;
-            deleteUri = ContentUris.withAppendedId(eventUri, eventID);
+             Uri deleteUri = ContentUris.withAppendedId(eventUri, eventID);
             int res = contentResolver.delete(deleteUri,null,null);
             if(res == -1){
                 Toast.makeText(context,"删除失败,可能是提醒事件id不存在",Toast.LENGTH_SHORT);
@@ -227,7 +377,7 @@ public class CalendarProviderUtil {
 
         // 准备event
         ContentValues valueEvent = new ContentValues();
-        valueEvent.put(CalendarContract.Events.DTSTART, calendars.beginTime);
+        valueEvent.put(CalendarContract.Events.DTSTART, calendars.startTime);
         valueEvent.put(CalendarContract.Events.DTEND, calendars.endTime);
         valueEvent.put(CalendarContract.Events.TITLE, calendars.title);
         valueEvent.put(CalendarContract.Events.DESCRIPTION, calendars.note);
@@ -235,8 +385,7 @@ public class CalendarProviderUtil {
         valueEvent.put(CalendarContract.Events.EVENT_TIMEZONE, "Asia/Shanghai");
 
 //        contentResolver.update(eventUri,valueEvent,eventID,null);
-        Uri updateUri;
-        updateUri = ContentUris.withAppendedId(eventUri, eventID);
+        Uri updateUri = ContentUris.withAppendedId(eventUri, eventID);
         contentResolver.update(updateUri,valueEvent,null,null);
 
         ContentValues valueReminder = new ContentValues();
@@ -244,8 +393,7 @@ public class CalendarProviderUtil {
             valueReminder.put(CalendarContract.Reminders.EVENT_ID, eventID);
             valueReminder.put(CalendarContract.Reminders.MINUTES, i);
             valueReminder.put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALARM);
-            Uri updateUri1;
-            updateUri1 = ContentUris.withAppendedId(eventUri, eventID);
+            Uri updateUri1 = ContentUris.withAppendedId(eventUri, eventID);
             int res = contentResolver.update(updateUri1,valueReminder,null,null);
             if(res == -1){
                 Toast.makeText(context,"更新失败"+"ID："+calendars.eventId+"标题"+calendars.title,Toast.LENGTH_SHORT);

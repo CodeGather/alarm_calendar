@@ -3,7 +3,7 @@
  * @Date: 2020-05-08 10:04:14
  * @Email: raohong07@163.com
  * @LastEditors: 21克的爱情
- * @LastEditTime: 2020-05-08 10:04:23
+ * @LastEditTime: 2021-02-04 16:59:24
  * @Description: 
  */
 
@@ -26,7 +26,7 @@ class Calendars{
   String _eventId;
 
   //开始时间，不设置即为默认
-  DateTime _beginTime;
+  DateTime _startTime;
 
   //结束时间，不要觉得默认时间很奇怪，连时间都要默认还要这个插件干嘛。
   DateTime _endTime;
@@ -46,7 +46,7 @@ class Calendars{
 //      microsecond, false);
 
   Calendars(
-      DateTime beginTime,
+      DateTime startTime,
       DateTime endTime,
       [String title = 'title',
         String note = 'note',
@@ -57,11 +57,11 @@ class Calendars{
   _note = note,
   _alert = alert,
   _eventId = eventId,
-  _beginTime = beginTime,
+  _startTime = startTime,
   _endTime = endTime,
   _allDay = allDay{
-    if(_beginTime == null){
-      _beginTime = DateTime(2020,5,20,13,14);
+    if(_startTime == null){
+      _startTime = DateTime(2020,5,20,13,14);
     }
     if(_endTime == null){
       _endTime = DateTime(2020,5,21,13,14);
@@ -78,7 +78,7 @@ class Calendars{
 
   String get getEventId => _eventId;
 
-  DateTime get getBeginTime => _beginTime;
+  DateTime get getStartTime => _startTime;
 
   DateTime get getEndTime => _endTime;
 
@@ -95,7 +95,7 @@ class Calendars{
 
   set setEventId(String eventId) => this._eventId = eventId;
 
-  set setBeginTime(DateTime beginTime) => this._beginTime = beginTime;
+  set setStartTime(DateTime startTime) => this._startTime = startTime;
 
   set setEndTime(DateTime endTime) => this._endTime = endTime;
 

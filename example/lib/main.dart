@@ -3,7 +3,7 @@
  * @Date: 2020-04-28 16:50:26
  * @Email: raohong07@163.com
  * @LastEditors: 21克的爱情
- * @LastEditTime: 2020-05-09 13:46:49
+ * @LastEditTime: 2021-02-04 19:46:06
  * @Description: 
  */
 
@@ -49,6 +49,15 @@ class _MyAppState extends State<MyApp> {
               MaterialButton(
                 color: Colors.blue,
                 textColor: Colors.white,
+                child: new Text('获取日程'),
+                onPressed: () {
+                  selectEvent(calendars.getEventId);
+                },
+              ),
+
+              MaterialButton(
+                color: Colors.blue,
+                textColor: Colors.white,
                 child: new Text('修改日程'),
                 onPressed: () async {
                   calendarsInit();
@@ -78,7 +87,7 @@ class _MyAppState extends State<MyApp> {
     //更新参数
     calendars.setTitle = 'hola2修改值';
     calendars.setAlert = [3,15];
-    calendars.setBeginTime = DateTime(2020,5,2,12,34);
+    calendars.setStartTime = DateTime(2020,5,2,12,34);
     calendars.setEndTime = DateTime(2020,5,2,12,35);
     calendars.setAllDay = 0;
     calendars.setNote = '这里是备注内容';
@@ -93,6 +102,22 @@ class _MyAppState extends State<MyApp> {
           if(resWrite){
             final id = await AlarmCalendar.createEvent(calendars);
             calendars.setEventId = id;
+            print('获得ID为：'+id);
+          }
+        });
+      }
+    });
+  }
+
+  Future<void> selectEvent(String id) async {
+    //查询是否有读权限。
+    await AlarmCalendar.CheckReadPermission().then((res) async {
+      if(res){
+        //查询是否有写权限
+        await AlarmCalendar.CheckWritePermission().then((resWrite) async{
+          if(resWrite){
+            final result = await AlarmCalendar.selectEvent(id);
+            print('获取返回数据：$result');
           }
         });
       }

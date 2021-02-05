@@ -1,5 +1,5 @@
 group 'com.jokui.rao.alarm_calendar'
-version '1.0'
+version '0.0.3'
 
 buildscript {
     repositories {
@@ -31,4 +31,8 @@ android {
     lintOptions {
         disable 'InvalidPackage'
     }
+}
+
+dependencies {
+    implementation 'com.alibaba:fastjson:1.2.61'
 }

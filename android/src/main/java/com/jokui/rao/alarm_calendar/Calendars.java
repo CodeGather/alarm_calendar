@@ -24,7 +24,7 @@ public class Calendars {
     String eventId;
 
     //起始时间
-    Long beginTime ;
+    Long startTime ;
 
     //结束事件
     Long endTime ;
@@ -32,12 +32,12 @@ public class Calendars {
     //是否是全天事件
     int allDay;
 
-    Calendars(String title, String note, List<Integer> alert, String eventId, Long beginTime, Long endTime, int allDay){
+    Calendars(String title, String note, List<Integer> alert, String eventId, Long startTime, Long endTime, int allDay){
         this.title = title;
         this.note = note;
         this.alert = alert;
         this.eventId = eventId;
-        this.beginTime = beginTime;
+        this.startTime = startTime;
         this.endTime = endTime;
         this.allDay = allDay;
     }

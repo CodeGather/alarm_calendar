@@ -9,6 +9,9 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+
+import com.alibaba.fastjson.JSONObject;
+
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
@@ -61,13 +64,33 @@ public class AlarmCalendarPlugin implements FlutterPlugin, MethodCallHandler, Ac
         String title = call.argument("title");
         String note = call.argument("note");
         List<Integer> alert = call.argument("alert");
-        Long beginTime = call.argument("beginTime");
+        Long beginTime = call.argument("startTime");
         Long endTime = call.argument("endTime");
         String eventId = call.argument("eventId");
         int allDay = call.argument("allDay");
         Calendars calendars = new Calendars(title,note,alert,eventId,beginTime,endTime,allDay);
         String resAdd = CalendarProviderUtil.addEvent(mActivity.get(),calendars);
         result.success(resAdd);
+        break;
+      case "selectEvent" :
+        String eventsId = call.argument("eventId");
+        CalendarEvent resDels = CalendarProviderUtil.selectEvent(mActivity.get(), eventsId);
+        JSONObject resultData = new JSONObject();
+        JSONObject data = new JSONObject();
+        data.put("id", resDels.getId());
+        data.put("title", resDels.getTitle());
+        data.put("startTime", resDels.getStart());
+        data.put("endTime", resDels.getEnd());
+        data.put("allDay", resDels.getAllDay());
+        data.put("notes", resDels.getDescription());
+        data.put("location", resDels.getEventLocation());
+        data.put("status", resDels.getStatus());
+        data.put("url", resDels.getRRule());
+
+        resultData.put("msg", "获取成功");
+        resultData.put("data", data);
+
+        result.success(resultData);
         break;
       case "deleteEvent" :
         String eventId0 = call.argument("eventId");
@@ -78,7 +101,7 @@ public class AlarmCalendarPlugin implements FlutterPlugin, MethodCallHandler, Ac
         String title1 = call.argument("title");
         String note1 = call.argument("note");
         List<Integer> alert1 = call.argument("alert");
-        Long beginTime1 = call.argument("beginTime");
+        Long beginTime1 = call.argument("startTime");
         Long endTime1 = call.argument("endTime");
         String eventId1 = call.argument("eventId");
         int allDay1 = call.argument("allDay");

@@ -3,7 +3,7 @@
  * @Date: 2020-05-08 10:01:09
  * @Email: raohong07@163.com
  * @LastEditors: 21克的爱情
- * @LastEditTime: 2020-05-09 13:18:43
+ * @LastEditTime: 2021-02-04 17:08:18
  * @Description: 
  */
 
@@ -18,13 +18,19 @@ class AlarmCalendar {
   static Future<String> createEvent(Calendars calendars) async {
     final String eventId = await _channel.invokeMethod('createEvent', <String, dynamic>{
       'title': calendars.getTitle,
-      'beginTime': calendars.getBeginTime.millisecondsSinceEpoch,
+      'startTime': calendars.getStartTime.millisecondsSinceEpoch,
       'endTime': calendars.getEndTime.millisecondsSinceEpoch,
       'alert': calendars.getAlert,
       'note': calendars.getNote,
       'allDay':calendars.getAllDay ?? 0,
     });
     return eventId;
+  }
+
+  //获取提醒事件
+  static Future<dynamic> selectEvent(String eventId) async{
+    final dynamic res = await _channel.invokeMethod('selectEvent', <String, dynamic>{'eventId': eventId});
+    return res;
   }
 
   //删除提醒事件
@@ -38,7 +44,7 @@ class AlarmCalendar {
     final String resId = await _channel.invokeMethod('updateEvent', <String, dynamic>{
       'eventId': calendars.getEventId,
       'title': calendars.getTitle,
-      'beginTime': calendars.getBeginTime.millisecondsSinceEpoch,
+      'startTime': calendars.getStartTime.millisecondsSinceEpoch,
       'endTime': calendars.getEndTime.millisecondsSinceEpoch,
       'alert': calendars.getAlert,
       'note': calendars.getNote,

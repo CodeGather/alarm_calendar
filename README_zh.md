@@ -1,8 +1,10 @@
 # alarm_calendar
 
+[English](README.md) | 中文文档
+
 一款ios，Android 的日历提醒flutter插件
 
-<!-- English | [中文文档](README_zh.md) -->
+English | [中文文档](README_zh.md)
 
 ### ios注意事项
 
