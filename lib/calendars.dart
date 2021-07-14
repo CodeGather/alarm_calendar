@@ -16,7 +16,7 @@ class Calendars{
 
   //提醒时间，默认提前15分钟提醒
   //可以设置多个提醒时间
-  List<int> _alert;
+  List<int>? _alert;
 
   //事件id，根据此id来更新或删除提醒事件
   //当为-1时表示未赋值。
@@ -50,7 +50,7 @@ class Calendars{
       DateTime endTime,
       [String title = 'title',
         String note = 'note',
-        List<int> alert,
+        List<int>? alert,
         String eventId = '-1',
         int allDay = 0])
   :_title = title,
@@ -74,7 +74,7 @@ class Calendars{
 
   String get getNote => _note;
 
-  List<int> get getAlert => _alert;
+  List<int>? get getAlert => _alert;
 
   String get getEventId => _eventId;
 

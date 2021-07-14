@@ -62,7 +62,7 @@ class _MyAppState extends State<MyApp> {
                 onPressed: () async {
                   calendarsInit();
                   final id = await AlarmCalendar.updateEvent(calendars);
-                  calendars.setEventId = id;
+                  calendars.setEventId = id!;
                 },
               ),
 
@@ -96,12 +96,12 @@ class _MyAppState extends State<MyApp> {
   Future<void> createEvent(Calendars calendars) async {
     //查询是否有读权限。
     await AlarmCalendar.CheckReadPermission().then((res) async {
-      if(res){
+      if(res != null){
         //查询是否有写权限
         await AlarmCalendar.CheckWritePermission().then((resWrite) async{
-          if(resWrite){
+          if(resWrite != null){
             final id = await AlarmCalendar.createEvent(calendars);
-            calendars.setEventId = id;
+            calendars.setEventId = id!;
             print('获得ID为：'+id);
           }
         });
@@ -112,10 +112,10 @@ class _MyAppState extends State<MyApp> {
   Future<void> selectEvent(String id) async {
     //查询是否有读权限。
     await AlarmCalendar.CheckReadPermission().then((res) async {
-      if(res){
+      if(res != null){
         //查询是否有写权限
         await AlarmCalendar.CheckWritePermission().then((resWrite) async{
-          if(resWrite){
+          if(resWrite != null){
             final result = await AlarmCalendar.selectEvent(id);
             print('获取返回数据：$result');
           }

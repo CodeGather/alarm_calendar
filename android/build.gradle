@@ -1,5 +1,5 @@
 group 'com.jokui.rao.alarm_calendar'
-version '0.0.3'
+version '0.0.4'
 
 buildscript {
     repositories {
