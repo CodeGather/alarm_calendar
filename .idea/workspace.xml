@@ -2,26 +2,38 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9bf85432-028a-4eeb-8264-4920d627d939" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CHANGELOG-zh.md" beforeDir="false" afterPath="$PROJECT_DIR$/CHANGELOG-zh.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/CHANGELOG.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/alarm_calendar/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/alarm_calendar/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/com/jokui/rao/alarm_calendar/CalendarProviderUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/com/jokui/rao/alarm_calendar/CalendarProviderUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/alarm_calendar/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/alarm_calendar/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/alarm_calendar/android/src/main/java/com/jokui/rao/alarm_calendar/CalendarProviderUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/alarm_calendar/android/src/main/java/com/jokui/rao/alarm_calendar/CalendarProviderUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/alarm_calendar/example/ios/Podfile" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/alarm_calendar/example/ios/Podfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/alarm_calendar/example/ios/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/alarm_calendar/example/ios/Podfile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/alarm_calendar/example/ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/alarm_calendar/example/ios/Runner.xcodeproj/project.pbxproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/alarm_calendar/example/ios/Runner.xcodeproj/project.xcworkspace/contents.xcworkspacedata" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/alarm_calendar/example/ios/Runner.xcodeproj/project.xcworkspace/contents.xcworkspacedata" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/alarm_calendar/example/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/alarm_calendar/example/lib/main.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/alarm_calendar/example/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/alarm_calendar/example/pubspec.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/alarm_calendar/example/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/alarm_calendar/example/pubspec.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/alarm_calendar/example/test/widget_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/alarm_calendar/example/test/widget_test.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/alarm_calendar/ios/Classes/AlarmCalendarPlugin.m" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/alarm_calendar/ios/Classes/AlarmCalendarPlugin.m" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/alarm_calendar/lib/alarm_calendar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/alarm_calendar/lib/alarm_calendar.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/alarm_calendar/lib/alarm_calendar_plugin.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/alarm_calendar/lib/alarm_calendar_plugin.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/alarm_calendar/lib/calendars.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/alarm_calendar/lib/calendars.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/alarm_calendar/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/alarm_calendar/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/alarm_calendar/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/alarm_calendar/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/Podfile" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/Podfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/Podfile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/Runner.xcodeproj/project.pbxproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/Runner.xcodeproj/project.xcworkspace/contents.xcworkspacedata" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/Runner.xcodeproj/project.xcworkspace/contents.xcworkspacedata" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/main.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/pubspec.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/pubspec.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/test/widget_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/test/widget_test.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Classes/AlarmCalendarPlugin.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/AlarmCalendarPlugin.m" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ios/alarm_calendar.podspec" beforeDir="false" afterPath="$PROJECT_DIR$/ios/alarm_calendar.podspec" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/alarm_calendar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/alarm_calendar.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/alarm_calendar_plugin.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/alarm_calendar_plugin.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/calendars.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/calendars.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -34,11 +46,6 @@
     <option name="delegatedBuild" value="true" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>flutter_alarm_calendar</find>
-    </findStrings>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -49,15 +56,19 @@
     <option name="height" value="907" />
   </component>
   <component name="ProjectId" id="1vJMJAkK9DwtEXJtjEKmCXilix2" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
     <option name="showVisibilityIcons" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="dart.analysis.tool.window.force.activate" value="false" />
     <property name="dart.analysis.tool.window.visible" value="false" />
+    <property name="io.flutter.reload.alreadyRun" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
@@ -73,5 +84,57 @@
       <updated>1588903752672</updated>
     </task>
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state width="1443" height="249" key="GridCell.Tab.0.bottom" timestamp="1627180386416">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1443" height="249" key="GridCell.Tab.0.bottom/0.23.1680.1027@0.23.1680.1027" timestamp="1627180386416" />
+    <state width="1443" height="249" key="GridCell.Tab.0.center" timestamp="1627180386415">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1443" height="249" key="GridCell.Tab.0.center/0.23.1680.1027@0.23.1680.1027" timestamp="1627180386415" />
+    <state width="1443" height="249" key="GridCell.Tab.0.left" timestamp="1627180386415">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1443" height="249" key="GridCell.Tab.0.left/0.23.1680.1027@0.23.1680.1027" timestamp="1627180386415" />
+    <state width="1443" height="249" key="GridCell.Tab.0.right" timestamp="1627180386416">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1443" height="249" key="GridCell.Tab.0.right/0.23.1680.1027@0.23.1680.1027" timestamp="1627180386416" />
+    <state width="1443" height="249" key="GridCell.Tab.1.bottom" timestamp="1627180386415">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1443" height="249" key="GridCell.Tab.1.bottom/0.23.1680.1027@0.23.1680.1027" timestamp="1627180386415" />
+    <state width="1443" height="249" key="GridCell.Tab.1.center" timestamp="1627180386414">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1443" height="249" key="GridCell.Tab.1.center/0.23.1680.1027@0.23.1680.1027" timestamp="1627180386414" />
+    <state width="1443" height="249" key="GridCell.Tab.1.left" timestamp="1627180386414">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1443" height="249" key="GridCell.Tab.1.left/0.23.1680.1027@0.23.1680.1027" timestamp="1627180386414" />
+    <state width="1443" height="249" key="GridCell.Tab.1.right" timestamp="1627180386414">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1443" height="249" key="GridCell.Tab.1.right/0.23.1680.1027@0.23.1680.1027" timestamp="1627180386414" />
+    <state x="493" y="252" width="738" height="490" key="find.popup" timestamp="1627177999965">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state x="493" y="252" width="738" height="490" key="find.popup/0.23.1680.1027@0.23.1680.1027" timestamp="1627177999965" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
+          <url>file://$PROJECT_DIR$/example/lib/main.dart</url>
+          <line>76</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

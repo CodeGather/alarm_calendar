@@ -43,18 +43,22 @@ bool bool_false = false;
       NSMutableArray *array = [[arrayStr componentsSeparatedByString:@","] mutableCopy];
       [array removeObject:dic[@"eventId"]];
       
-      BOOL status = bool_false;
-      if( !event ){
-        NSLog(@"日历提醒ID：%@",event.eventIdentifier);
+      if( event ){
+        NSLog(@"删除日历提醒ID：%@",event.eventIdentifier);
         
         NSString *string = [array componentsJoinedByString:@","];
         // 保存在沙盒，避免重复添加等其他判断
         [[NSUserDefaults standardUserDefaults] setObject:string forKey:@"my_eventIdentifier"];
         [[NSUserDefaults standardUserDefaults] synchronize];
-        
-        status = [[EventManger shareInstance] deleteEvent: event] == YES ? bool_true : bool_false;
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+          BOOL status = [[EventManger shareInstance] deleteEvent: event];
+          
+          result(status ? @(bool_true) : @(bool_false));
+        });
+      } else {
+        result(@(bool_false));
       }
-      result(@(status));
     } else {
       // 保存在沙盒，避免重复添加等其他判断
       [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"my_eventIdentifier"];
@@ -72,7 +76,7 @@ bool bool_false = false;
       
       // 执行删除
       BOOL status = [[EventManger shareInstance] deleteEvent: event];
-      NSLog(@"删除日历提醒--b-->%@",status?@"YES":@"NO");
+      NSLog(@"删除日历提醒--并创建新的提醒-->%@",status?@"YES":@"NO");
       
       [self createCalendars: call result: result];
     }
@@ -170,14 +174,14 @@ bool bool_false = false;
           @"msg" : @"获取成功",
           @"data": @{
               @"id": events.eventIdentifier ?: dic[@"eventId"],
-              @"title": events.title ?: @"21212",
+              @"title": events.title ?: @"",
               @"startTime" : [self dateWithFormat_yyyy_MM_dd_HH_mm_ss: events.startDate],
               @"endTime" : [self dateWithFormat_yyyy_MM_dd_HH_mm_ss: events.endDate],
               @"allDay" : @(events.allDay),
-              @"notes" : events.notes ?: @"1212",
-              @"location" : events.location ?: @"2121",
+              @"notes" : events.notes ?: @"",
+              @"location" : events.location ?: @"",
               @"status" : @(events.status),
-              @"url" : events.URL ?: @"1212",
+              @"url" : events.URL ?: @"",
           }
       };
       

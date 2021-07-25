@@ -7,7 +7,7 @@
  * @Description: 
  */
 
-class Calendars{
+class Calendars {
   //标题参数
   String _title;
 
@@ -45,29 +45,26 @@ class Calendars{
 //      : this._internal(year, month, day, hour, minute, second, millisecond,
 //      microsecond, false);
 
-  Calendars(
-      DateTime startTime,
-      DateTime endTime,
+  Calendars(DateTime startTime, DateTime endTime,
       [String title = 'title',
-        String note = 'note',
-        List<int>? alert,
-        String eventId = '-1',
-        int allDay = 0])
-  :_title = title,
-  _note = note,
-  _alert = alert,
-  _eventId = eventId,
-  _startTime = startTime,
-  _endTime = endTime,
-  _allDay = allDay{
-    if(_startTime == null){
-      _startTime = DateTime(2020,5,20,13,14);
+      String note = 'note',
+      List<int>? alert,
+      String eventId = '-1',
+      int allDay = 0])
+      : _title = title,
+        _note = note,
+        _alert = alert,
+        _eventId = eventId,
+        _startTime = startTime,
+        _endTime = endTime,
+        _allDay = allDay {
+    if (_startTime == null) {
+      _startTime = DateTime(2020, 5, 20, 13, 14);
     }
-    if(_endTime == null){
-      _endTime = DateTime(2020,5,21,13,14);
+    if (_endTime == null) {
+      _endTime = DateTime(2020, 5, 21, 13, 14);
     }
-
-}
+  }
 
   //  get方法
   String get getTitle => _title;
@@ -84,7 +81,6 @@ class Calendars{
 
   int get getAllDay => _allDay;
 
-
   //set方法
 
   set setTitle(String title) => this._title = title;
@@ -100,5 +96,4 @@ class Calendars{
   set setEndTime(DateTime endTime) => this._endTime = endTime;
 
   set setAllDay(int allDay) => this._allDay = allDay;
-
 }

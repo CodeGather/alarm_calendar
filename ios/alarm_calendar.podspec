@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'alarm_calendar'
-  s.version          = '0.0.4'
+  s.version          = '0.0.5'
   s.summary          = '日历提醒插件'
   s.description      = <<-DESC
     A new flutter plugin project.

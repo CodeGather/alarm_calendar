@@ -19,12 +19,18 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Calendars calendars = new Calendars(DateTime(2020,5,1,11,23),DateTime(2020,5,1,12,00),'hola','note',[5],'1',1);
+  Calendars calendars = new Calendars(
+      new DateTime.now(),
+      new DateTime.now().add(new Duration(days: 1)),
+      '测试通知',
+      '测试通知描述',
+      [5],
+      '1',
+      1);
 
   @override
   void initState() {
     super.initState();
-
   }
 
   @override
@@ -45,7 +51,6 @@ class _MyAppState extends State<MyApp> {
                   createEvent(calendars);
                 },
               ),
-
               MaterialButton(
                 color: Colors.blue,
                 textColor: Colors.white,
@@ -54,7 +59,6 @@ class _MyAppState extends State<MyApp> {
                   selectEvent(calendars.getEventId);
                 },
               ),
-
               MaterialButton(
                 color: Colors.blue,
                 textColor: Colors.white,
@@ -62,22 +66,23 @@ class _MyAppState extends State<MyApp> {
                 onPressed: () async {
                   calendarsInit();
                   final id = await AlarmCalendar.updateEvent(calendars);
+                  print("修改日程ID为：$id");
                   calendars.setEventId = id!;
                 },
               ),
-
               MaterialButton(
                 color: Colors.blue,
                 textColor: Colors.white,
                 child: new Text('删除日程'),
-                onPressed: () {
-                  AlarmCalendar.deleteEvent(calendars.getEventId);
+                onPressed: () async {
+                  final status =
+                      await AlarmCalendar.deleteEvent(calendars.getEventId);
+                  print("删除状态：$status");
                   calendars.setEventId = '';
                 },
               ),
             ],
           ),
-
         ),
       ),
     );
@@ -85,10 +90,10 @@ class _MyAppState extends State<MyApp> {
 
   void calendarsInit() {
     //更新参数
-    calendars.setTitle = 'hola2修改值';
-    calendars.setAlert = [3,15];
-    calendars.setStartTime = DateTime(2020,5,2,12,34);
-    calendars.setEndTime = DateTime(2020,5,2,12,35);
+    calendars.setTitle = '测试通知修改版';
+    calendars.setAlert = [3, 15];
+    calendars.setStartTime = new DateTime.now();
+    calendars.setEndTime = new DateTime.now().add(new Duration(days: 2));
     calendars.setAllDay = 0;
     calendars.setNote = '这里是备注内容';
   }
@@ -96,13 +101,13 @@ class _MyAppState extends State<MyApp> {
   Future<void> createEvent(Calendars calendars) async {
     //查询是否有读权限。
     await AlarmCalendar.CheckReadPermission().then((res) async {
-      if(res != null){
+      if (res != null) {
         //查询是否有写权限
-        await AlarmCalendar.CheckWritePermission().then((resWrite) async{
-          if(resWrite != null){
+        await AlarmCalendar.CheckWritePermission().then((resWrite) async {
+          if (resWrite != null) {
             final id = await AlarmCalendar.createEvent(calendars);
             calendars.setEventId = id!;
-            print('获得ID为：'+id);
+            print('获得ID为：' + id);
           }
         });
       }
@@ -112,10 +117,10 @@ class _MyAppState extends State<MyApp> {
   Future<void> selectEvent(String id) async {
     //查询是否有读权限。
     await AlarmCalendar.CheckReadPermission().then((res) async {
-      if(res != null){
+      if (res != null) {
         //查询是否有写权限
-        await AlarmCalendar.CheckWritePermission().then((resWrite) async{
-          if(resWrite != null){
+        await AlarmCalendar.CheckWritePermission().then((resWrite) async {
+          if (resWrite != null) {
             final result = await AlarmCalendar.selectEvent(id);
             print('获取返回数据：$result');
           }
@@ -123,5 +128,4 @@ class _MyAppState extends State<MyApp> {
       }
     });
   }
-
 }

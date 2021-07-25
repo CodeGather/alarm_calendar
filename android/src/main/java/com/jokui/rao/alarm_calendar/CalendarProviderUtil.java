@@ -321,7 +321,8 @@ public class CalendarProviderUtil {
         for(int i : calendars.alert){
             valueReminder.put(CalendarContract.Reminders.EVENT_ID, eventId);
             valueReminder.put(CalendarContract.Reminders.MINUTES, i);
-            valueReminder.put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALARM);
+            // valueReminder.put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALARM);
+            valueReminder.put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT);
             Uri insertReminderUri = contentResolver.insert(reminderUri, valueReminder);
             if (insertReminderUri == null){
                 Toast.makeText(context,"添加失败", Toast.LENGTH_SHORT).show();
@@ -392,7 +393,8 @@ public class CalendarProviderUtil {
         for(int i : calendars.alert){
             valueReminder.put(CalendarContract.Reminders.EVENT_ID, eventID);
             valueReminder.put(CalendarContract.Reminders.MINUTES, i);
-            valueReminder.put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALARM);
+            // valueReminder.put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALARM);
+            valueReminder.put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT);
             Uri updateUri1 = ContentUris.withAppendedId(eventUri, eventID);
             int res = contentResolver.update(updateUri1,valueReminder,null,null);
             if(res == -1){
