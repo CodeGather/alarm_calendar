@@ -1,6 +1,7 @@
 package com.jokui.rao.alarm_calendar;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -12,17 +13,23 @@ import android.graphics.Color;
 import android.icu.util.TimeZone;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Parcelable;
 import android.provider.CalendarContract;
 import android.provider.Contacts;
 import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 
 
 @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -30,6 +37,7 @@ public class CalendarProviderUtil {
 
 
     static final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
+
     // ContentProvider的uri
     private static Uri calendarUri = CalendarContract.Calendars.CONTENT_URI;
     private static Uri eventUri = CalendarContract.Events.CONTENT_URI;
@@ -78,8 +86,203 @@ public class CalendarProviderUtil {
     }
 
     /**
+     * 获取日历账户
+     * @param context
+     * @return
+     */
+    @SuppressLint("Range")
+    public static List<JSONObject> getCalendarAccount(Context context){
+        Cursor userCursor =  null;
+        List<JSONObject> list = new ArrayList<>();
+        try {
+            userCursor = context.getContentResolver().query(calendarUri, null, null, null, null);
+            if (userCursor != null && userCursor.getCount() > 0){
+                userCursor.moveToFirst();
+                while (!userCursor.isAfterLast()) {
+                    JSONObject account = new JSONObject();
+                    for (String key : userCursor.getColumnNames()) {
+                        int type = userCursor.getType(userCursor.getColumnIndex(key));
+                        if (Objects.equals(Cursor.FIELD_TYPE_STRING, type)) {
+                            account.put(key, userCursor.getString(userCursor.getColumnIndex(key)));
+                        } else if (Objects.equals(Cursor.FIELD_TYPE_INTEGER, type)) {
+                            account.put(key, userCursor.getInt(userCursor.getColumnIndex(key)));
+                        } else if (Objects.equals(Cursor.FIELD_TYPE_BLOB, type)) {
+                            account.put(key, userCursor.getBlob(userCursor.getColumnIndex(key)));
+                        } else if (Objects.equals(Cursor.FIELD_TYPE_FLOAT, type)) {
+                            account.put(key, userCursor.getFloat(userCursor.getColumnIndex(key)));
+                        } else if (Objects.equals(Cursor.FIELD_TYPE_NULL, type)) {
+                            account.put(key, userCursor.getShort(userCursor.getColumnIndex(key)));
+                        } else {
+                            account.put(key, userCursor.getString(userCursor.getColumnIndex(key)));
+                        }
+                    }
+                    list.add(account);
+                    userCursor.moveToNext();
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            if (userCursor != null) {
+                userCursor.close();
+            }
+        }
+        return list;
+    }
+
+
+    /**
+     * 获取日历账户
+     * @param context
+     * @return
+     */
+    @SuppressLint("Range")
+    public static boolean delCalendarAccount(Context context, String id){
+        String[] selectionArgs = new String[]{id};
+        // this is for which argument to match   with _ID=1 and delete row
+        String selection = CalendarContract.Calendars._ID + "=?";
+        int result = 0;
+        try{
+            result = context.getContentResolver().delete(calendarUri, selection, selectionArgs);
+        } catch (Exception e) {
+            System.out.println("删除时出现异常！");
+        }
+
+        return result == 1;
+    }
+
+    /**
+     * 获取日历账户
+     * @param context
+     * @return
+     */
+    @SuppressLint("Range")
+    public static boolean updateCalendarAccount(Context context, HashMap<String, Object> parmas){
+        ContentValues contentValues = new ContentValues();
+        for (String key : parmas.keySet()) {
+            Object value = parmas.get(key);
+            if (value instanceof String) {
+                if (Objects.equals(CalendarContract.Calendars.CALENDAR_COLOR, key)) {
+                    contentValues.put(key, Color.parseColor((String) value));
+                } else {
+                    contentValues.put(key, (String) value);
+                }
+            } else if (value instanceof Byte) {
+                contentValues.put(key, (Byte) value);
+            } else if (value instanceof Short) {
+                contentValues.put(key, (Short) value);
+            } else if (value instanceof Integer) {
+                contentValues.put(key, (Integer) value);
+            } else if (value instanceof Long) {
+                contentValues.put(key, (Long) value);
+            } else if (value instanceof Float) {
+                contentValues.put(key, (Float) value);
+            } else if (value instanceof Double) {
+                contentValues.put(key, (Double) value);
+            } else if (value instanceof Boolean) {
+                contentValues.put(key, (Boolean) value);
+            } else if (value instanceof byte[]) {
+                contentValues.put(key, (byte[]) value);
+            } else {
+                throw new IllegalArgumentException("Unsupported type " + value.getClass());
+            }
+        }
+
+        Uri newCalendarUri = calendarUri;
+        newCalendarUri = newCalendarUri.buildUpon()
+                .appendQueryParameter(CalendarContract.CALLER_IS_SYNCADAPTER, "true")
+                .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_NAME, String.valueOf(contentValues.get(CalendarContract.Calendars.ACCOUNT_NAME)))
+                .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_TYPE, String.valueOf(contentValues.get(CalendarContract.Calendars.ACCOUNT_TYPE)))
+                .build();
+
+        String[] selectionArgs = new String[]{contentValues.getAsString("id")};
+        // this is for which argument to match with _ID=1 and delete row
+        String selection = CalendarContract.Calendars._ID + "=?";
+
+        int result = 0;
+        try{
+            result = context.getContentResolver().update(newCalendarUri, contentValues, selection, selectionArgs);
+        } catch (Exception e) {
+            System.out.println("更新时出现异常！");
+        }
+        return result == 1;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static long addCalendarAccount(Context context, HashMap<String, Object> parmas){
+        ContentValues contentValues = new ContentValues();
+        for (String key : parmas.keySet()) {
+            Object value = parmas.get(key);
+            if (!Objects.equals("id", key)) {
+                if (value instanceof String) {
+                    if (Objects.equals(CalendarContract.Calendars.CALENDAR_COLOR, key)) {
+                        contentValues.put(key, Color.parseColor((String) value));
+                    } else {
+                        contentValues.put(key, (String) value);
+                    }
+                } else if (value instanceof Byte) {
+                    contentValues.put(key, (Byte) value);
+                } else if (value instanceof Short) {
+                    contentValues.put(key, (Short) value);
+                } else if (value instanceof Integer) {
+                    contentValues.put(key, (Integer) value);
+                } else if (value instanceof Long) {
+                    contentValues.put(key, (Long) value);
+                } else if (value instanceof Float) {
+                    contentValues.put(key, (Float) value);
+                } else if (value instanceof Double) {
+                    contentValues.put(key, (Double) value);
+                } else if (value instanceof Boolean) {
+                    contentValues.put(key, (Boolean) value);
+                } else if (value instanceof byte[]) {
+                    contentValues.put(key, (byte[]) value);
+                } else {
+                    throw new IllegalArgumentException("Unsupported type " + value.getClass());
+                }
+            }
+        }
+//        //  日历名称
+//        contentValues.put(CalendarContract.Calendars.NAME, 1919);
+//        //  日历账号，为邮箱格式
+//        contentValues.put(CalendarContract.Calendars.ACCOUNT_NAME, "raohong07@163.com");
+//        //  账户类型，com.android.exchange
+//        contentValues.put(CalendarContract.Calendars.ACCOUNT_TYPE, "LOCAL");
+//        //  展示给用户的日历名称
+//        contentValues.put(CalendarContract.Calendars.CALENDAR_DISPLAY_NAME, "calendarsDisplayName");
+//        //  它是一个表示被选中日历是否要被展示的值。
+//        //  0值表示关联这个日历的事件不应该展示出来。
+//        //  而1值则表示关联这个日历的事件应该被展示出来。
+//        //  这个值会影响CalendarContract.instances表中的生成行。
+//        contentValues.put(CalendarContract.Calendars.VISIBLE, 1);
+//        //  账户标记颜色
+//        contentValues.put(CalendarContract.Calendars.CALENDAR_COLOR, Color.BLUE);
+//        //  账户级别
+//        contentValues.put(CalendarContract.Calendars.CALENDAR_ACCESS_LEVEL, CalendarContract.Calendars.CAL_ACCESS_OWNER);
+//        //  它是一个表示日历是否应该被同步和是否应该把它的事件保存到设备上的值。
+//        //  0值表示不要同步这个日历或者不要把它的事件存储到设备上。
+//        //  1值则表示要同步这个日历的事件并把它的事件储存到设备上。
+//        contentValues.put(CalendarContract.Calendars.SYNC_EVENTS, 1);
+//        //  时区
+//        contentValues.put(CalendarContract.Calendars.CALENDAR_TIME_ZONE, TimeZone.getDefault().getID());
+//        //  账户拥有者
+//        contentValues.put(CalendarContract.Calendars.OWNER_ACCOUNT, "raohong07@163.com");
+//        contentValues.put(CalendarContract.Calendars.CAN_ORGANIZER_RESPOND, 0);
+
+        Uri newCalendarUri = calendarUri;
+        newCalendarUri = newCalendarUri.buildUpon()
+                .appendQueryParameter(CalendarContract.CALLER_IS_SYNCADAPTER, "true")
+                .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_NAME, String.valueOf(contentValues.get(CalendarContract.Calendars.ACCOUNT_NAME)))
+                .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_TYPE, String.valueOf(contentValues.get(CalendarContract.Calendars.ACCOUNT_TYPE)))
+                .build();
+
+        Uri result = context.getContentResolver().insert(newCalendarUri, contentValues);
+        return result == null ? -1 : ContentUris.parseId(result);
+    }
+
+    /**
      * 检查是否有日历表,有返回日历id，没有-1
      * */
+    @SuppressLint("Range")
     private static int isHaveCalender(Context context) {
 
         // 查询日历表的cursor
@@ -164,6 +367,7 @@ public class CalendarProviderUtil {
      *
      * @return If failed return null else return List<CalendarEvent>
      */
+    @SuppressLint("Range")
     public static CalendarEvent queryAccountEvent(Context context, long calID, long eventId) {
         final String[] EVENT_PROJECTION = new String[]{
                 CalendarContract.Events.CALENDAR_ID,             // 在表中的列索引0
@@ -288,7 +492,6 @@ public class CalendarProviderUtil {
      * @return*/
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static String addEvent(Context context, Calendars calendars) {
-
         // 创建contentResolver
         contentResolver = context.getContentResolver();
 

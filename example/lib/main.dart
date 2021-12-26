@@ -3,7 +3,7 @@
  * @Date: 2020-04-28 16:50:26
  * @Email: raohong07@163.com
  * @LastEditors: 21克的爱情
- * @LastEditTime: 2021-02-04 19:46:06
+ * @LastEditTime: 2021-12-26 10:04:37
  * @Description: 
  */
 
@@ -43,6 +43,111 @@ class _MyAppState extends State<MyApp> {
         body: Center(
           child: Column(
             children: <Widget>[
+              MaterialButton(
+                color: Colors.blue,
+                textColor: Colors.white,
+                child: new Text('创建日历账户'),
+                onPressed: ()async {
+                  final result = await AlarmCalendar.addAccount(
+                      CalendarColumns.fromJson({
+                        'name': '测试日历',
+                        'accountName': 'raohong@163.com',
+                        'accountType': 'LOCAL',
+                        'dirty': '',
+                        'visible': Visible.Show.index,
+                        'mutators': '',
+                        'ownerAccount': 'raohong07@163.com',
+                        'maxReminders': '',
+                        'allowedReminders': '',
+                        'canModifyTimeZone': '',
+                        'canOrganizerRespond': 0,
+                        'canPartiallyUpdate': '',
+                        'calendarDisplayName': '添加测试账户',
+                        'calendarLocation': '',
+                        'calendarTimezone': TimeZone().Shanghai,
+                        'calendarColor': '#00ff00',
+                        'syncEvents': 1,
+                        'calendarAccessLevel': AccessLevel.CAL_ACCESS_OWNER.index,
+                        'deleted': '',
+                        'calSync1': '',
+                        'calSync2': '',
+                        'calSync3': '',
+                        'calSync4': '',
+                        'calSync5': '',
+                        'calSync6': '',
+                        'calSync7': '',
+                        'calSync8': '',
+                        'calSync9': '',
+                        'calSync10': '',
+                      })
+                  );
+                  print("创建手机日历中的账户");
+                  print(result);
+                },
+              ),
+              MaterialButton(
+                color: Colors.blue,
+                textColor: Colors.white,
+                child: new Text('获取日历账户'),
+                onPressed: ()async {
+                  final result = await AlarmCalendar.getAccount();
+                  print("获得手机日历中的账户");
+                  print(result);
+                },
+              ),
+              MaterialButton(
+                color: Colors.blue,
+                textColor: Colors.white,
+                child: new Text('更新日历账户'),
+                onPressed: ()async {
+                  final result = await AlarmCalendar.updateAccount(
+                      CalendarColumns.fromJson({
+                        'id': '9',
+                        'name': '测试日历',
+                        'accountName': 'raohong@163.com',
+                        'accountType': 'LOCAL',
+                        'dirty': '',
+                        'visible': Visible.Show.index,
+                        'mutators': '',
+                        'ownerAccount': 'raohong07@163.com',
+                        'maxReminders': '',
+                        'allowedReminders': '',
+                        'canModifyTimeZone': '',
+                        'canOrganizerRespond': 0,
+                        'canPartiallyUpdate': '',
+                        'calendarDisplayName': '添加测试账户更新',
+                        'calendarLocation': '',
+                        'calendarTimezone': TimeZone().Shanghai,
+                        'calendarColor': '#00ff00',
+                        'syncEvents': 1,
+                        'calendarAccessLevel': AccessLevel.CAL_ACCESS_OWNER.index,
+                        'deleted': '',
+                        'calSync1': '',
+                        'calSync2': '',
+                        'calSync3': '',
+                        'calSync4': '',
+                        'calSync5': '',
+                        'calSync6': '',
+                        'calSync7': '',
+                        'calSync8': '',
+                        'calSync9': '',
+                        'calSync10': '',
+                      })
+                  );
+                  print("更新手机日历中的账户");
+                  print(result);
+                },
+              ),
+              MaterialButton(
+                color: Colors.blue,
+                textColor: Colors.white,
+                child: new Text('删除日历账户'),
+                onPressed: ()async {
+                  final result = await AlarmCalendar.delAccount(9);
+                  print("删除手机日历中的账户");
+                  print(result);
+                },
+              ),
               MaterialButton(
                 color: Colors.blue,
                 textColor: Colors.white,

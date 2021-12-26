@@ -5,11 +5,13 @@ import android.app.Application;
 import android.os.Build;
 
 import java.lang.ref.WeakReference;
+import java.util.HashMap;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
@@ -60,6 +62,22 @@ public class AlarmCalendarPlugin implements FlutterPlugin, MethodCallHandler, Ac
   @Override
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
     switch (call.method){
+      case "addCalendarAccount":
+        long addAccount = CalendarProviderUtil.addCalendarAccount(mActivity.get(), (HashMap<String, Object>) call.arguments);
+        result.success(addAccount);
+        break;
+      case "getCalendarAccount":
+        List<JSONObject> resultAccount = CalendarProviderUtil.getCalendarAccount(mActivity.get());
+        result.success(resultAccount);
+        break;
+      case "updateCalendarAccount":
+        boolean updateAccount = CalendarProviderUtil.updateCalendarAccount(mActivity.get(), (HashMap<String, Object>) call.arguments);
+        result.success(updateAccount);
+        break;
+      case "delCalendarAccount":
+        boolean delAccount = CalendarProviderUtil.delCalendarAccount(mActivity.get(), String.valueOf(call.argument("id")));
+        result.success(delAccount);
+        break;
       case "createEvent" :
         String title = call.argument("title");
         String note = call.argument("note");

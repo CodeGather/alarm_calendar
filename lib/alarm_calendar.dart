@@ -8,16 +8,39 @@
  */
 
 import 'dart:async';
+import 'package:alarm_calendar/CalendarColumns.dart';
 import 'package:flutter/services.dart';
 import 'calendars.dart';
 
 class AlarmCalendar {
   static const MethodChannel _channel = const MethodChannel('alarm_calendar');
 
+  //添加手机日历的账户
+  static Future<int?> addAccount(CalendarColumns calendarColumns) async {
+    return await _channel.invokeMethod('addCalendarAccount', calendarColumns.toJson());
+  }
+
+  //获取手机中的账户
+  static Future<List> getAccount() async {
+    return await _channel.invokeMethod('getCalendarAccount');
+  }
+
+  //更新手机中的账户
+  static Future<bool> updateAccount(CalendarColumns calendarColumns) async {
+    return await _channel.invokeMethod('updateCalendarAccount', calendarColumns.toJson());
+  }
+
+  //删除手机中的账户
+  static Future<bool> delAccount(dynamic id) async {
+    return await _channel.invokeMethod('delCalendarAccount', <String, dynamic>{
+      'id': '$id',
+    });
+  }
+
   //添加事件
   static Future<String?> createEvent(Calendars calendars) async {
     final String? eventId =
-        await _channel.invokeMethod('createEvent', <String, dynamic>{
+    await _channel.invokeMethod('createEvent', <String, dynamic>{
       'title': calendars.getTitle,
       'startTime': calendars.getStartTime.millisecondsSinceEpoch,
       'endTime': calendars.getEndTime.millisecondsSinceEpoch,
